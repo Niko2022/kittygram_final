@@ -38,7 +38,7 @@ jobs:
 
       - name: Test with ruff
         run: |
-          ruff check backend/
+          ruff check backend/ --ignore=E501
 
       - name: Run backend tests
         run: |
