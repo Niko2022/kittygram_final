@@ -1,27 +1,40 @@
-version: '3'
+version: '3.8'
 
 volumes:
-  pg_data:
   static:
+  media:
+  pg_data:
 
 services:
+  gateway:
+    image: nik01337/kittygram_gateway
+    ports:
+      - "80:80"
+    volumes:
+      - static:/static
+      - media:/media
+    depends_on:
+      - backend
+      - frontend
+
+  backend:
+    image: nik01337/kittygram_backend
+    volumes:
+      - static:/backend_static
+      - media:/media
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  frontend:
+    image: nik01337/kittygram_frontend
+    volumes:
+      - static:/frontend_static
+
   db:
     image: postgres:13
+    env_file:
+      - .env
     volumes:
       - pg_data:/var/lib/postgresql/data
-  backend:
-    build: ./backend/
-    env_file: .env
-  frontend:
-    env_file: .env
-    build: ./frontend/
-    command: cp -r /app/build/. /static/
-    volumes:
-      - static:/static
-  gateway:
-    build: ./nginx/
-    env_file: .env
-    ports:
-      - 9000:80
-    volumes:
-      - static:/static
