@@ -31,7 +31,7 @@ services:
   frontend:
     image: nik01337/kittygram_frontend
     volumes:
-      - static:/frontend_static
+      - static:/app/build/static
 
   db:
     image: postgres:13
