@@ -22,7 +22,7 @@ services:
     image: nik01337/kittygram_backend
     volumes:
       - static:/backend_static
-      - media:/media
+      - media:/app/media
     env_file:
       - .env
     depends_on:
